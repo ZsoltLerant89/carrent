@@ -3,8 +3,50 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Index</title>
+		<style>
+			table 
+			{
+			  border-collapse: collapse;
+			  width: 100%;
+			}
+			
+			th, td 
+			{
+			  padding: 8px;
+			  text-align: left;
+			  border-bottom: 1px solid #DDD;
+			}
+			
+			tr:hover {background-color: #D6EEEE;}
+		</style>
 	</head>
 	<body>
-		<h3>Welcome on Index page...</h3>
+		<form action="/search" method="get">
+			<p>Begin of reservation:</p>
+			<input type="date" name="beginofreservation"/>
+			<br/>
+			<p>End of reservation:</p>
+			<input type="date" name="endofreservation"/>
+			<br/>
+			<br/>
+			<input type="submit" value="Search" />
+		</form>
+		
+		<table th:if="${carDTOList != null}">
+			<h3>Avaliable cars: </h3>
+			<tr>
+				<th>Car ID</th>
+				<th>Type</th>
+				<th>Fee</th>
+			</tr>
+			
+			<tr th:each="carDTO : ${carDTOList.getCarList()}">
+				<td th:text="${carDTO.getCarid()}"></td>
+				<td th:text="${carDTO.getType()}"></td>
+				<td th:text="${carDTO.getFee()}"></td>
+			</tr>	
+			
+		</table>
+		
 	</body>
 </html>

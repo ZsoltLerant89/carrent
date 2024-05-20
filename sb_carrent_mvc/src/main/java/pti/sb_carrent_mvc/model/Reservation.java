@@ -15,7 +15,7 @@ public class Reservation {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "reservation")
+	@Column(name = "reservationid")
 	private int reservationId;
 	
 	@Column(name = "name")
@@ -30,14 +30,19 @@ public class Reservation {
 	@Column(name = "carid")
 	private int carId;
 	
-	@Column(name = "beginingofreservation")
-	private LocalDate beginingOfReservation;
+	@Column(name = "beginofreservation")
+	private LocalDate beginOfReservation;
 	
 	@Column(name = "endofreservation")
 	private LocalDate endOfReservation;
 
 	
-	public Reservation(String name, String email, String tel, int carId, LocalDate beginingOfReservation,
+	public Reservation() {
+		super();
+	}
+
+
+	public Reservation(String name, String email, String tel, int carId, LocalDate beginOfReservation,
 			LocalDate endOfReservation) {
 		super();
 		this.reservationId = 0;
@@ -45,7 +50,7 @@ public class Reservation {
 		this.email = email;
 		this.tel = tel;
 		this.carId = carId;
-		this.beginingOfReservation = beginingOfReservation;
+		this.beginOfReservation = beginOfReservation;
 		this.endOfReservation = endOfReservation;
 	}
 
@@ -90,13 +95,16 @@ public class Reservation {
 		this.carId = carId;
 	}
 
-	public LocalDate getBeginingOfReservation() {
-		return beginingOfReservation;
+
+	public LocalDate getBeginOfReservation() {
+		return beginOfReservation;
 	}
 
-	public void setBeginingOfReservation(LocalDate beginingOfReservation) {
-		this.beginingOfReservation = beginingOfReservation;
+
+	public void setBeginOfReservation(LocalDate beginOfReservation) {
+		this.beginOfReservation = beginOfReservation;
 	}
+
 
 	public LocalDate getEndOfReservation() {
 		return endOfReservation;
@@ -105,6 +113,17 @@ public class Reservation {
 	public void setEndOfReservation(LocalDate endOfReservation) {
 		this.endOfReservation = endOfReservation;
 	}
+
+
+	@Override
+	public String toString() {
+		return "Reservation [reservationId=" + reservationId + ", name=" + name + ", email=" + email + ", tel=" + tel
+				+ ", carId=" + carId + ", beginOfReservation=" + beginOfReservation + ", endOfReservation="
+				+ endOfReservation + "]";
+	}
+
+
+	
 	
 	
 }

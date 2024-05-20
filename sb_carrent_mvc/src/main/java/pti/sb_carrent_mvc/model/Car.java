@@ -25,7 +25,12 @@ public class Car {
 	@Column(name = "reservationamount")
 	private int reservationAmount;
 
-	
+
+	public Car() {
+		super();
+	}
+
+
 	public Car(String type, boolean active, int reservationAmount) {
 		super();
 		this.carId = 0;
@@ -65,6 +70,13 @@ public class Car {
 
 	public void setReservationAmount(int reservationAmount) {
 		this.reservationAmount = reservationAmount;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Car [carId=" + carId + ", type=" + type + ", active=" + active + ", reservationAmount="
+				+ reservationAmount + "]";
 	}
 	
 	
