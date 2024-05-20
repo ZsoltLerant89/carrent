@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pti.sb_carrent_mvc.dto.CarDTOList;
+import pti.sb_carrent_mvc.dto.ReservationDTO;
+import pti.sb_carrent_mvc.dto.SuccessReservationDTO;
 import pti.sb_carrent_mvc.service.AppService;
 
 @Controller
@@ -28,7 +31,7 @@ public class AppController {
 		return "index.html";
 	}
 	
-	@GetMapping("/search")
+	@GetMapping("/car/search")
 	public String search(Model model,
 						@RequestParam("beginofreservation") LocalDate beginOfReservation,
 						@RequestParam("endofreservation") LocalDate endOfReservation
@@ -40,6 +43,37 @@ public class AppController {
 		
 		
 		return "index.html";
+	}
+	
+	@PostMapping("/car/reservation")
+	public String reservation(Model model,
+							 @RequestParam("carid") int carId,
+							 @RequestParam("beginofreservation") LocalDate beginOfReservation,
+							 @RequestParam("endofreservation") LocalDate endOfReservation
+							 )
+	{	
+		ReservationDTO reservationDTO = service.getReservationDTO(carId,beginOfReservation,endOfReservation);
+		model.addAttribute("reservationDTO", reservationDTO);
+		
+		return "reservation.html";
+	}
+	
+	@PostMapping("/car/reservation/submit")
+	public String submitReservation(Model model,
+									@RequestParam("carid") int carId,
+									@RequestParam("name") String name,
+									@RequestParam("email") String email,
+									@RequestParam("address") String address,
+									@RequestParam("tel") String tel,
+									@RequestParam("beginofreservation") LocalDate beginOfReservation,
+									@RequestParam("endofreservation") LocalDate endOfReservation
+									)
+	{
+		
+		SuccessReservationDTO successReservationDTO = service.setReservation(carId, name, email, address, tel, beginOfReservation, endOfReservation);
+		model.addAttribute("successReservationDTO", successReservationDTO);
+		
+		return "successreservation.html";
 	}
 	
 }

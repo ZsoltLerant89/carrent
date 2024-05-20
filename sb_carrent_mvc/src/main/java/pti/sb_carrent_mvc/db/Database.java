@@ -32,7 +32,7 @@ public class Database {
 		this.sessionFactory.close();
 	}
 
-	public List<Car> getCars(LocalDate beginingOfReservation, LocalDate endOfReservation) {
+	public List<Car> getCars() {
 		
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
@@ -61,6 +61,20 @@ public class Database {
 		session.close();
 
 		return reservationList;
+	}
+	
+	public Car getCarById(int carId)
+	{
+		
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		Car car = session.get(Car.class, carId);
+		
+		tx.commit();
+		session.close();
+		
+		return car;
 	}
 	
 	

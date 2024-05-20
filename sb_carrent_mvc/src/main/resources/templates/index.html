@@ -7,7 +7,7 @@
 			table 
 			{
 			  border-collapse: collapse;
-			  width: 100%;
+			  width: 50%;
 			}
 			
 			th, td 
@@ -21,7 +21,7 @@
 		</style>
 	</head>
 	<body>
-		<form action="/search" method="get">
+		<form action="/car/search" method="get">
 			<p>Begin of reservation:</p>
 			<input type="date" name="beginofreservation"/>
 			<br/>
@@ -38,12 +38,22 @@
 				<th>Car ID</th>
 				<th>Type</th>
 				<th>Fee</th>
+				<th></th>
 			</tr>
 			
 			<tr th:each="carDTO : ${carDTOList.getCarList()}">
-				<td th:text="${carDTO.getCarid()}"></td>
+				<td th:text="${carDTO.getCarid()}" ></td>
+				
 				<td th:text="${carDTO.getType()}"></td>
-				<td th:text="${carDTO.getFee()}"></td>
+				<td th:text="${carDTO.getFee()}"/>
+				<td>
+					<form action="/car/reservation" method="post">
+						<input type="hidden" th:value="${carDTO.getCarid()}" name="carid"/>
+						<input type="hidden" th:value="${carDTOList.getBeginOfReservation()}" name="beginofreservation"/>
+						<input type="hidden" th:value="${carDTOList.getEndOfReservation()}" name="endofreservation"/>
+						<input type="submit" value="Reserve" />
+					</form>
+				</td>
 			</tr>	
 			
 		</table>

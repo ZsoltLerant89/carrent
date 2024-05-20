@@ -1,12 +1,14 @@
 package pti.sb_carrent_mvc.dto;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CarDTOList {
 
 	private List<CarDTO> carList;
-	
+	private LocalDate beginOfReservation;
+	private LocalDate endOfReservation;
 	
 	
 	public CarDTOList() {
@@ -29,11 +31,34 @@ public class CarDTOList {
 		this.carList.add(carDTO);
 	}
 
+	public LocalDate getBeginOfReservation() {
+		return beginOfReservation;
+	}
+
+
+	public void setBeginOfReservation(LocalDate beginOfReservation) {
+		this.beginOfReservation = beginOfReservation;
+	}
+
+
+	public LocalDate getEndOfReservation() {
+		return endOfReservation;
+	}
+
+
+	public void setEndOfReservation(LocalDate endOfReservation) {
+		this.endOfReservation = endOfReservation;
+	}
+
 
 	@Override
 	public String toString() {
-		return "CarDTOList [carList=" + carList + "]";
+		return "CarDTOList [carList=" + carList + ", beginOfReservation=" + beginOfReservation + ", endOfReservation="
+				+ endOfReservation + "]";
 	}
+
+
+	
 
 	
 	
