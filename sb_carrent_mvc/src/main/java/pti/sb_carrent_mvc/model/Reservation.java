@@ -35,6 +35,9 @@ public class Reservation {
 	
 	@Column(name = "endofreservation")
 	private LocalDate endOfReservation;
+	
+//	@Column(name = "priceofreservation")
+//	private long  priceOfReservation;
 
 	
 	public Reservation() {
@@ -42,8 +45,14 @@ public class Reservation {
 	}
 
 
-	public Reservation(String name, String email, String tel, int carId, LocalDate beginOfReservation,
-			LocalDate endOfReservation) {
+	public Reservation(	String name,
+						String email, 
+						String tel, 
+						int carId, 
+						LocalDate beginOfReservation,
+						LocalDate endOfReservation
+						) 
+	{
 		super();
 		this.reservationId = 0;
 		this.name = name;
@@ -123,7 +132,5 @@ public class Reservation {
 	}
 
 
-	
-	
 	
 }

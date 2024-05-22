@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import pti.sb_carrent_mvc.dto.CarDTO;
 import pti.sb_carrent_mvc.dto.CarDTOList;
 import pti.sb_carrent_mvc.dto.ReservationDTO;
+import pti.sb_carrent_mvc.dto.ReservationListDTO;
 import pti.sb_carrent_mvc.dto.SuccessReservationDTO;
 import pti.sb_carrent_mvc.service.AppService;
 
@@ -52,7 +54,10 @@ public class AppController {
 							 @RequestParam("endofreservation") LocalDate endOfReservation
 							 )
 	{	
-		ReservationDTO reservationDTO = service.getReservationDTO(carId,beginOfReservation,endOfReservation);
+		ReservationDTO reservationDTO = service.getReservationDTO(	carId,
+																	beginOfReservation,
+																	endOfReservation
+																	);
 		model.addAttribute("reservationDTO", reservationDTO);
 		
 		return "reservation.html";
@@ -70,10 +75,29 @@ public class AppController {
 									)
 	{
 		
-		SuccessReservationDTO successReservationDTO = service.setReservation(carId, name, email, address, tel, beginOfReservation, endOfReservation);
+		SuccessReservationDTO successReservationDTO = service.setReservation(carId,
+																			 name, 
+																			 email, 
+																			 address, 
+																			 tel, 
+																			 beginOfReservation, 
+																			 endOfReservation
+																			 );
 		model.addAttribute("successReservationDTO", successReservationDTO);
 		
 		return "successreservation.html";
 	}
 	
+	@GetMapping("/admin")
+	public String loadAdmin(Model model)
+	{
+		ReservationListDTO reservationListDTO = service.getReservations();
+		model.addAttribute("reservationListDTO" , reservationListDTO);
+		
+		CarDTOList carListDTO = service.getCars();
+		model.addAttribute("carListDTO", carListDTO);
+		
+		return "admin.html";
+	}
+		
 }

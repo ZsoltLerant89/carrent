@@ -5,13 +5,14 @@ public class CarDTO {
 	private int carid;
 	private String type;
 	private int fee;
+	private boolean active;
 	
-	
-	public CarDTO(int carid, String type, int fee) {
+	public CarDTO(int carid, String type, int fee, boolean active) {
 		super();
 		this.carid = carid;
 		this.type = type;
 		this.fee = fee;
+		this.active = active;
 	}
 
 
@@ -39,11 +40,22 @@ public class CarDTO {
 		this.fee = fee;
 	}
 
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
 
 	@Override
 	public String toString() {
-		return "CarDTO [carid=" + carid + ", type=" + type + ", fee=" + fee + "]";
+		return "CarDTO [carid=" + carid + ", type=" + type + ", fee=" + fee + ", active=" + active + "]";
 	}
+
+
+	
 
 	
 	

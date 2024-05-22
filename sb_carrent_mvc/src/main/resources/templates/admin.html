@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Admin</title>
+		<style>
+			table 
+			{
+			  border-collapse: collapse;
+			  width: 80%;
+			}
+			
+			th, td 
+			{
+			  padding: 8px;
+			  text-align: left;
+			  border-bottom: 1px solid #DDD;
+			}
+			
+			tr:hover {background-color: #D6EEEE;}
+		</style>
+	</head>
+	<body>
+
+		<table th:if="${reservationListDTO != null}">
+			<h3>Reservations: </h3>
+			<tr>
+				<th>Reservation ID</th>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Tel</th>
+				<th>Car ID</th>
+				<th>Begin of reservation</th>
+				<th>End of reservation</th>
+			</tr>
+			
+			<tr th:each="reservation : ${reservationListDTO.getReservationList()}">
+				<td th:text="${reservation.getReservationId()}" ></td>
+				<td th:text="${reservation.getName()}"></td>
+				<td th:text="${reservation.getEmail()}"></td>
+				<td th:text="${reservation.getTel()}" ></td>
+				<td th:text="${reservation.getCarId()}"></td>
+				<td th:text="${reservation.getBeginOfReservation()}"></td>
+				<td th:text="${reservation.getEndOfReservation()}"></td>
+				
+			</tr>	
+			
+		</table>
+		<br/><br/>
+		<table th:if="${carListDTO != null}">
+			<h3>Cars: </h3>
+			<tr>
+				<th>Car ID</th>
+				<th>Type</th>
+				<th>Fee</th>
+				<th>Active</th>
+				<th></th>
+				<th></th>
+			</tr>
+			
+			<tr th:each="carDTO : ${carListDTO.getCarList()}">
+				<td th:text="${carDTO.getCarid()}" ></td>	
+				<td th:text="${carDTO.getType()}"></td>
+				<td th:text="${carDTO.getFee()}"></td>
+				<td th:text="${carDTO.isActive()}"/>
+				
+				<td>
+					<form action="/car/activate" method="post">
+						<input type="hidden" th:value="${carDTO.getCarid()}" name="carid"/>
+						<input type="submit" value="Activate/Deactivate" />
+					</form>
+				</td>
+				<td>
+					<form action="/car/edit" method="post">
+						<input type="hidden" th:value="${carDTO.getCarid()}" name="carid"/>
+						<input type="submit" value="Edit" />
+					</form>
+				</td>
+			</tr>	
+			
+		</table>
+	</body>
+</html>

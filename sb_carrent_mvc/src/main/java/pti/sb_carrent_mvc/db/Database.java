@@ -49,6 +49,7 @@ public class Database {
 
 	public List<Reservation> getReservation(int carId) {
 		List<Reservation> reservationList = null;
+		
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		
@@ -75,6 +76,35 @@ public class Database {
 		session.close();
 		
 		return car;
+	}
+
+	public void saveReservation(Reservation reservation) {
+		
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		session.persist(reservation);
+		
+		tx.commit();
+		session.close();
+		
+	}
+
+	public List<Reservation> getReservations() {
+		List<Reservation> reservationList = null;
+		
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		SelectionQuery<Reservation> query = session.createSelectionQuery("SELECT r FROM Reservation r ", Reservation.class);
+		
+		reservationList = query.getResultList();
+		
+		tx.commit();
+		session.close();
+		
+		return reservationList;
+		
 	}
 	
 	
