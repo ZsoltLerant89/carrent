@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import pti.sb_carrent_mvc.dto.AdminDTO;
 import pti.sb_carrent_mvc.dto.CarDTO;
 import pti.sb_carrent_mvc.dto.CarDTOList;
 import pti.sb_carrent_mvc.dto.ReservationDTO;
-import pti.sb_carrent_mvc.dto.ReservationListDTO;
 import pti.sb_carrent_mvc.dto.SuccessReservationDTO;
 import pti.sb_carrent_mvc.service.AppService;
 
@@ -91,13 +91,52 @@ public class AppController {
 	@GetMapping("/admin")
 	public String loadAdmin(Model model)
 	{
-		ReservationListDTO reservationListDTO = service.getReservations();
-		model.addAttribute("reservationListDTO" , reservationListDTO);
 		
-		CarDTOList carListDTO = service.getCars();
-		model.addAttribute("carListDTO", carListDTO);
+		AdminDTO adminDTO = service.getAdminDTO();
+		model.addAttribute("adminDTO", adminDTO);
+
 		
 		return "admin.html";
+	}
+	
+	@PostMapping("/car/activate")
+	public String activOrDeactivCar(Model model,
+									@RequestParam("carid") int carId
+									)
+	{
+		
+		service.activateOrDeactivateCar(carId);
+		
+		AdminDTO adminDTO = service.getAdminDTO();
+		model.addAttribute("adminDTO", adminDTO);
+		
+		return "admin.html";
+	}
+	
+	@PostMapping("/car/edit")
+	public String editCarPage(Model model,
+						 @RequestParam("carid") int carId
+						 )
+	{
+		CarDTO carDTO = service.getCarDTO(carId);
+		model.addAttribute("carDTO", carDTO);
+		
+		return "editcar.html";
+	}
+	
+	@GetMapping("/car/edited")
+	public String editCar(	Model model,
+							@RequestParam("carid") int carId,
+							@RequestParam("type") String type,
+							@RequestParam("active") String active,
+							@RequestParam("reservationamount") int reservationAmount				
+							)
+	{
+		
+		CarDTO carDTO = service.updateCar(carId,type,active,reservationAmount);
+		model.addAttribute("carDTO", carDTO);
+		
+		return "editcar.html";
 	}
 		
 }

@@ -45,7 +45,7 @@
 				<td th:text="${carDTO.getCarid()}" ></td>
 				
 				<td th:text="${carDTO.getType()}"></td>
-				<td th:text="${carDTO.getFee()}"/>
+				<td th:text="${carDTO.getFee()}"></td>
 				<td>
 					<form action="/car/reservation" method="post">
 						<input type="hidden" th:value="${carDTO.getCarid()}" name="carid"/>

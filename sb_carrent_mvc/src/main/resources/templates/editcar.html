@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Edit car</title>
+		<style>
+			table {
+				border-collapse: collapse;
+				width: 80%;
+			}
+			
+			th, td {
+				padding: 8px;
+				text-align: left;
+				border-bottom: 1px solid #DDD;
+			}
+			
+			tr:hover {
+				background-color: #D6EEEE;
+			}
+		</style>
+	</head>
+	<body>
+		<form action="/car/edited" method="get">
+			<input type="hidden" th:value="${carDTO.getCarid()}" name="carid" />
+	
+			<p>Type:</p>
+			<input type="text" name="type" /> 
+			<br />
+	
+			<p>Active(false/true):</p>
+			<input type="text" name="active" /> 
+			<br />
+	
+			<p>Reservation amount:</p>
+			<input type="number" name="reservationamount" /> 
+			<br /> 
+			<br /> 
+			
+			<input type="submit" value="Send" />
+		</form>
+		<br />
+		
+		<table>
+			<tr>
+				<th>Car ID</th>
+				<th>Type</th>
+				<th>Active</th>
+				<th>Fee</th>
+			</tr>
+	
+			<tr>
+				<td th:text="${carDTO.getCarid()}"></td>
+				<td th:text="${carDTO.getType()}"></td>
+				<td th:text="${carDTO.isActiveString()}"></td>
+				<td th:text="${carDTO.getFee() + ' Ft'}"></td>
+			</tr>
+		</table>
+		<br />
+		<br />
+	
+		<form action="/admin" method="get">
+			<input type="submit" value="Admin page" />
+		</form>
+	</body>
+</html>

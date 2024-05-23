@@ -46,15 +46,41 @@ public class Database {
 		
 		return carList;
 	}
+	
+public List<Car> getActiveCars() {
+		
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		SelectionQuery<Car> query = session.createSelectionQuery("SELECT c FROM Car c WHERE c.active = true", Car.class);
+		
+		List<Car> carList = query.getResultList();
+		
+		tx.commit();
+		session.close();
+		
+		return carList;
+	}
 
-	public List<Reservation> getReservation(int carId) {
+	public List<Reservation> getReservationByCarIdWithinPeriods(int carId,
+																LocalDate beginOfReservation,
+																LocalDate endOfReservation 
+																) 
+	{
+		
 		List<Reservation> reservationList = null;
 		
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		
-		SelectionQuery<Reservation> query = session.createSelectionQuery("SELECT r FROM Reservation r WHERE r.carId = ?1", Reservation.class);
+		SelectionQuery<Reservation> query = session.createSelectionQuery("SELECT r FROM Reservation r WHERE r.carId = ?1 AND"
+																		+ "((r.endOfReservation >= ?2 AND r.endOfReservation <= ?3 AND r.beginOfReservation <= ?2) OR "
+																		+ "(r.beginOfReservation >= ?2 AND r.beginOfReservation < ?3 AND r.endOfReservation > ?2 AND r.endOfReservation <= ?3) OR"
+																		+ "(r.beginOfReservation <= ?3 AND r.beginOfReservation >= ?2 AND r.endOfReservation > ?3))" , 
+																		Reservation.class);
 		query.setParameter(1, carId);
+		query.setParameter(2, beginOfReservation);
+		query.setParameter(3, endOfReservation);
 		
 		reservationList = query.getResultList();
 		
@@ -64,8 +90,7 @@ public class Database {
 		return reservationList;
 	}
 	
-	public Car getCarById(int carId)
-	{
+	public Car getCarById(int carId){
 		
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
@@ -91,6 +116,7 @@ public class Database {
 	}
 
 	public List<Reservation> getReservations() {
+		
 		List<Reservation> reservationList = null;
 		
 		Session session = sessionFactory.openSession();
@@ -104,6 +130,18 @@ public class Database {
 		session.close();
 		
 		return reservationList;
+		
+	}
+
+	public void updateCar(Car car) {
+		
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		session.merge(car);
+		
+		tx.commit();
+		session.close();
 		
 	}
 	

@@ -48,6 +48,21 @@ public class CarDTO {
 		this.active = active;
 	}
 
+	public String isActiveString()
+	{
+		String result = "";
+		
+		if(this.isActive() == true)
+		{
+			result = "active";
+		}
+		else
+		{
+			result ="inactive";
+		}
+		
+		return result;
+	}
 
 	@Override
 	public String toString() {

@@ -2,13 +2,13 @@ package pti.sb_carrent_mvc.service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pti.sb_carrent_mvc.db.Database;
+import pti.sb_carrent_mvc.dto.AdminDTO;
 import pti.sb_carrent_mvc.dto.CarDTO;
 import pti.sb_carrent_mvc.dto.CarDTOList;
 import pti.sb_carrent_mvc.dto.ReservationDTO;
@@ -34,61 +34,33 @@ public class AppService {
 		
 		if(beginOfReservation.isBefore(endOfReservation))
 		{	
-			List<Car> carList = new ArrayList<>();
-			
-			carList = db.getCars();
+			List<Car> carList = db.getActiveCars();
 			
 			carDTOList = new CarDTOList();
-			
-			List<Reservation> reservationList = new ArrayList<>();
 			
 			for(int index = 0; index < carList.size(); index++)
 			{
 				
 				Car currentCar = carList.get(index);
-				/** Check if the car is active */
-				if (currentCar.isActive() == true)
+			
+				/** Get reservations for current car */
+				List<Reservation> reservationList = db.getReservationByCarIdWithinPeriods(currentCar.getCarId(),beginOfReservation,endOfReservation);
+			
+				if (reservationList.size() == 0)
 				{
-					/** Get reservations for current car */
-					reservationList = db.getReservation(currentCar.getCarId());
-				
-					if (reservationList != null)
-					{
-						for(int reservationIndex = 0; reservationIndex < reservationList.size(); reservationIndex++)
-						{
+							CarDTO carDTO = new CarDTO(	currentCar.getCarId(),
+														currentCar.getType(),
+														currentCar.getReservationAmount(),
+														currentCar.isActive()
+														);
 							
-							Reservation currentReservation = reservationList.get(reservationIndex);
-							
-							/** Compare current reservation date */ 
-							if(	(beginOfReservation.isAfter(currentReservation.getEndOfReservation())) || 
-								(endOfReservation.isBefore(currentReservation.getBeginOfReservation()))
-								)
-								
-							{
-								CarDTO carDTO = new CarDTO(	currentCar.getCarId(),
-															currentCar.getType(),
-															currentCar.getReservationAmount(),
-															currentCar.isActive()
-															);
-								
-								carDTOList.addToCarList(carDTO);
-								
-								carDTOList.setBeginOfReservation(beginOfReservation);
-								carDTOList.setEndOfReservation(endOfReservation);
-							}
-						}
-					}
-					else
-					{
-						CarDTO carDTO = new CarDTO(	currentCar.getCarId(),
-													currentCar.getType(),
-													currentCar.getReservationAmount(),
-													currentCar.isActive()
-													);
-						carDTOList.addToCarList(carDTO);
-					}
+							carDTOList.addToCarList(carDTO);
+
 				}
 			}
+			
+			carDTOList.setBeginOfReservation(beginOfReservation);
+			carDTOList.setEndOfReservation(endOfReservation);
 		}
 		
 		return carDTOList;
@@ -187,5 +159,100 @@ public class AppService {
 		
 		return carListDTO;
 	}
+	
+	public AdminDTO getAdminDTO()
+	{
+		
+		AdminDTO adminDTO = null;
+	
+		List<Car> carList = db.getCars();
+		List<Reservation> reservationList = db.getReservations();
+		
+		if((carList.size() > 0)  && (reservationList.size() > 0))
+		{
+			adminDTO = new AdminDTO();
+			
+			for(int index = 0; index < carList.size(); index++)
+			{
+				Car currentCar = carList.get(index);
+				CarDTO currentCarDTO = new CarDTO(	currentCar.getCarId(),
+													currentCar.getType(),
+													currentCar.getReservationAmount(),
+													currentCar.isActive()
+													);
+				adminDTO.addCarDTOToCarList(currentCarDTO);
+			}
+						
+			for(int index = 0; index < reservationList.size(); index++)
+			{
+				Reservation currentReservation = reservationList.get(index);
+				adminDTO.addReservationToReservationList(currentReservation);
+			}
+		}
+	
+		return adminDTO;
+		
+	}
 
+	public void activateOrDeactivateCar(int carId) {
+		
+		Car car = db.getCarById(carId);
+		
+		if(car != null)
+		{
+			boolean isActive = car.isActive();
+			
+			if(isActive == true)
+			{
+				car.setActive(false);
+			}
+			else
+			{
+				car.setActive(true);
+			}
+			
+			db.updateCar(car);
+		}
+	}
+
+	public CarDTO updateCar(int carId, String type, String active, int reservationAmount) {
+		CarDTO carDTO = null;
+		
+		Car car = db.getCarById(carId);
+		
+		
+		if(car != null)
+		{
+			
+			boolean isActive = false;
+			
+			if(active.equals("true"))
+			{
+				isActive = true;
+			}
+			
+			car.setType(type);
+			car.setActive(isActive);
+			car.setReservationAmount(reservationAmount);
+			
+			carDTO = new CarDTO(car.getCarId(),car.getType(),car.getReservationAmount(),car.isActive());
+			
+			db.updateCar(car);
+		}
+		
+		return carDTO;
+	}
+
+	public CarDTO getCarDTO(int carId) {
+		CarDTO carDTO = null;
+		
+		Car car = db.getCarById(carId);
+		
+		if(car != null)
+		{
+			carDTO = new CarDTO(car.getCarId(),car.getType(),car.getReservationAmount(),car.isActive());
+		}
+		
+		return carDTO;
+	}
 }
