@@ -255,4 +255,35 @@ public class AppService {
 		
 		return carDTO;
 	}
+
+	public CarDTO addNewCar(String type, String active, int reservationAmount) {
+		
+		CarDTO carDTO = null;
+		
+		boolean isActive = false;
+		
+		if(active.equals("true"))
+		{
+			isActive = true;
+		}
+		
+		Car car = new Car(type,isActive,reservationAmount);
+		
+		db.saveCar(car);
+		
+		carDTO = new CarDTO(car.getCarId(),car.getType(),car.getReservationAmount(),car.isActive());
+		
+		return carDTO;
+	}
+
+	public void deleteCar(int carId) {
+		
+		Car car = db.getCarById(carId);
+		
+		if (car != null)
+		{
+			db.deleteCar(car);
+		}
+		
+	}
 }

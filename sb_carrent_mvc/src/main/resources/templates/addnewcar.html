@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Add new car</title>
+		<style>
+			table 
+			{
+			  border-collapse: collapse;
+			  width: 80%;
+			}
+			
+			th, td 
+			{
+			  padding: 8px;
+			  text-align: left;
+			  border-bottom: 1px solid #DDD;
+			}
+			
+			tr:hover {background-color: #D6EEEE;}
+		</style>
+	</head>
+	<body>
+		<form action="/addnewcarpage/addnewcar" method="get">
+			<label>Type:</label>
+			<input type="text"  name="type"/>
+			<br />
+			<br />
+			
+			<label>Active(false/true):</label>
+			<input type="text"  name="active"/>
+			<br />
+			<br />
+			
+			<label>Reservation amount:</label>
+			<input type="number"  name="reservationamount"/>
+			<br />
+			<br />
+			
+			<input type="submit" value="Save" />
+		</form>
+		
+		<div th:if="${carDTO != null}">
+			<h4>Successfully added the new car: </h4>
+			
+			<table>
+				<tr>
+					<th>Car ID</th>
+					<th>Type</th>
+					<th>Active</th>
+					<th>Fee</th>
+				</tr>
+		
+				<tr>
+					<td th:text="${carDTO.getCarid()}"></td>
+					<td th:text="${carDTO.getType()}"></td>
+					<td th:text="${carDTO.isActiveString()}"></td>
+					<td th:text="${carDTO.getFee() + ' Ft'}"></td>
+				</tr>
+			</table>
+		</div>
+		<br />
+		<br />
+		
+		<form action="/admin" method="get">
+			<input type="submit" value="Admin page" />
+		</form>
+	</body>
+</html>

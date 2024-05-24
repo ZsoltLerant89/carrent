@@ -136,7 +136,43 @@ public class AppController {
 		CarDTO carDTO = service.updateCar(carId,type,active,reservationAmount);
 		model.addAttribute("carDTO", carDTO);
 		
+		model.addAttribute("text", "Successfully edited the car!");
+		
 		return "editcar.html";
+	}
+	
+	@PostMapping("/car/delete")
+	public String DeleteCar(Model model,
+							@RequestParam("carid") int carId)
+	{
+		service.deleteCar(carId);
+		
+		AdminDTO adminDTO = service.getAdminDTO();
+		model.addAttribute("adminDTO", adminDTO);
+		
+		model.addAttribute("text", "Successfully deleted the car!");
+		
+		return "admin.html";
+	}
+	
+	@PostMapping("/admin/addnewcarpage")
+	public String loadAddNewCarPage()
+	{
+		return "addnewcar.html";
+	}
+	
+	@GetMapping("/addnewcarpage/addnewcar")
+	public String addNewCar(Model model,
+							@RequestParam("type") String type,
+							@RequestParam("active") String active,
+							@RequestParam("reservationamount") int reservationAmount				
+							)
+	{
+		
+		CarDTO carDTO = service.addNewCar(type,active,reservationAmount);
+		model.addAttribute("carDTO", carDTO);
+		
+		return "addnewcar.html";
 	}
 		
 }

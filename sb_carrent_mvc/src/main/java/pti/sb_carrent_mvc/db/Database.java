@@ -144,6 +144,30 @@ public List<Car> getActiveCars() {
 		session.close();
 		
 	}
+
+	public void saveCar(Car car) {
+		
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		session.persist(car);
+		
+		tx.commit();
+		session.close();
+		
+	}
+
+	public void deleteCar(Car car) {
+		
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		session.remove(car);
+		
+		tx.commit();
+		session.close();
+		
+	}
 	
 	
 }

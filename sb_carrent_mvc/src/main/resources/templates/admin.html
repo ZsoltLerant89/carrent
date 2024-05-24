@@ -21,7 +21,6 @@
 		</style>
 	</head>
 	<body>
-
 		<table th:if="${adminDTO != null}">
 			<h3>Reservations: </h3>
 			<tr>
@@ -79,5 +78,13 @@
 			</tr>	
 			
 		</table>
+		
+		<p th:text=${text}></p>
+		<br />
+		
+		<form action="/admin/addnewcarpage" method="post">
+			<input type="submit" value="Add new car" />
+		</form>
+		
 	</body>
 </html>

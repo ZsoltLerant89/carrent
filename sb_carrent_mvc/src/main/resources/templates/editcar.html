@@ -56,11 +56,19 @@
 				<td th:text="${carDTO.getFee() + ' Ft'}"></td>
 			</tr>
 		</table>
+		
+		<p th:text=${text}></p>
+		
+		<form action="/car/delete" method="post">
+			<input type="hidden" th:value="${carDTO.getCarid()}" name="carid" />
+			<input type="Submit" value="Delete car" />
+			
+		</form>
 		<br />
-		<br />
-	
+		
 		<form action="/admin" method="get">
 			<input type="submit" value="Admin page" />
 		</form>
+		
 	</body>
 </html>
