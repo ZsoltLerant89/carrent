@@ -1,0 +1,13 @@
+package pti.sb_carrent_rest;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class SbCarrentRestApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
