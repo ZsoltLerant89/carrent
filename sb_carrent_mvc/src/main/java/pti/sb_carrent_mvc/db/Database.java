@@ -3,7 +3,7 @@ package pti.sb_carrent_mvc.db;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.apache.catalina.User;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

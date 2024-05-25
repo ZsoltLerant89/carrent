@@ -174,5 +174,64 @@ public class AppController {
 		
 		return "addnewcar.html";
 	}
+	
+	/** Rest API */
+	@GetMapping("/freecars")
+	public String getFreeCars(	Model model,
+								@RequestParam("beginofreservation") LocalDate beginOfReservation,
+								@RequestParam("endofreservation") LocalDate endOfReservation
+								)
+	{
+		CarDTOList carDTOList = service.getCarDTOListFromRest(beginOfReservation, endOfReservation);
+		model.addAttribute("carDTOList", carDTOList);
 		
+		return "restindex.html";
+	}
+	
+	@GetMapping("/rest/index")
+	private String restIndexPage()
+	{
+		return "restindex.html";
+	}
+	
+	@PostMapping("/rest/restreservation")
+	public String restReservation(Model model,
+								 @RequestParam("carid") int carId,
+								 @RequestParam("beginofreservation") LocalDate beginOfReservation,
+								 @RequestParam("endofreservation") LocalDate endOfReservation
+								 )
+	{	
+		ReservationDTO reservationDTO = service.getRestReservationDTO(	carId,
+																		beginOfReservation,
+																		endOfReservation
+																		);
+		model.addAttribute("reservationDTO", reservationDTO);
+		
+		return "restreservation.html";
+	}
+	
+	
+	@PostMapping("/rest/restreservation/submit")
+	public String successReservationDTO(Model model,
+										@RequestParam("carid") int carId,
+										@RequestParam("name") String name,
+										@RequestParam("email") String email,
+										@RequestParam("address") String address,
+										@RequestParam("tel") String tel,
+										@RequestParam("beginofreservation") LocalDate beginOfReservation,
+										@RequestParam("endofreservation") LocalDate endOfReservation
+										)
+	{
+		SuccessReservationDTO successReservationDTO = service.setReservationByRest(	 carId,
+																					 name, 
+																					 email, 
+																					 address, 
+																					 tel, 
+																					 beginOfReservation, 
+																					 endOfReservation
+																					 );
+		model.addAttribute("successReservationDTO", successReservationDTO);
+		
+		return "restsuccessreservation.html";
+	}
 }

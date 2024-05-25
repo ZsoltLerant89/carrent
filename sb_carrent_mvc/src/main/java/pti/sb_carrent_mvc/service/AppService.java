@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import pti.sb_carrent_mvc.db.Database;
 import pti.sb_carrent_mvc.dto.AdminDTO;
@@ -94,8 +95,8 @@ public class AppService {
 		{
 			long priceOfcar = car.getReservationAmount();
 			
-			long lenghtOfCurrentFlight = (ChronoUnit.DAYS.between(beginOfReservation,endOfReservation));
-			long priceOfReservation = (priceOfcar*lenghtOfCurrentFlight);
+			long lenghtOfCurrentReservation = (ChronoUnit.DAYS.between(beginOfReservation,endOfReservation));
+			long priceOfReservation = (priceOfcar*lenghtOfCurrentReservation);
 			
 			sucessReservationDTO = new SuccessReservationDTO(name,
 															 email, 
@@ -216,6 +217,7 @@ public class AppService {
 	}
 
 	public CarDTO updateCar(int carId, String type, String active, int reservationAmount) {
+		
 		CarDTO carDTO = null;
 		
 		Car car = db.getCarById(carId);
@@ -244,6 +246,7 @@ public class AppService {
 	}
 
 	public CarDTO getCarDTO(int carId) {
+		
 		CarDTO carDTO = null;
 		
 		Car car = db.getCarById(carId);
@@ -286,4 +289,58 @@ public class AppService {
 		}
 		
 	}
+
+	public CarDTOList getCarDTOListFromRest(LocalDate beginOfReservation, LocalDate endOfReservation) 
+	{	
+		
+		RestTemplate rt = new RestTemplate();
+		CarDTOList carDTOList = rt.getForObject("http://localhost:8081/getfreecars?beginofreservation=" + beginOfReservation + 
+												"&endofreservation=" + endOfReservation ,
+												CarDTOList.class
+												);
+		
+		return carDTOList;
+	}
+
+	public ReservationDTO getRestReservationDTO(int carId, 
+												LocalDate beginOfReservation, 
+												LocalDate endOfReservation
+												) 
+	{
+		
+		RestTemplate rt = new RestTemplate();
+		ReservationDTO reservationDTO = rt.getForObject("http://localhost:8081/reservation?carid=" + carId + 
+														"&beginofreservation=" + beginOfReservation + 
+														"&endofreservation=" + endOfReservation,
+														ReservationDTO.class
+														);
+
+		return reservationDTO;
+	}
+	
+	public SuccessReservationDTO setReservationByRest(	int carId,
+														String name, 
+														String email, 
+														String address, 
+														String tel,
+														LocalDate beginOfReservation,
+														LocalDate endOfReservation
+														) 
+	{
+		
+		RestTemplate rt = new RestTemplate();
+		SuccessReservationDTO sucessReservationDTO = rt.getForObject("http://localhost:8081/setreservation?carid=" + carId + 
+																	 "&name=" + name + 
+																	 "&email=" + email + 
+																	 "&address=" + address + 
+																	 "&tel=" + tel + 
+																	 "&beginofreservation=" + beginOfReservation + 
+																	 "&endofreservation=" + endOfReservation, 
+																	 SuccessReservationDTO.class
+																	 );
+		
+		return sucessReservationDTO;
+	}
+
+	
 }
