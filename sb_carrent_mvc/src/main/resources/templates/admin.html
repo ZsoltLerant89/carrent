@@ -70,7 +70,7 @@
 					</form>
 				</td>
 				<td>
-					<form action="/car/edit" method="post">
+					<form action="/car/edit" method="get">
 						<input type="hidden" th:value="${carDTO.getCarid()}" name="carid"/>
 						<input type="submit" value="Edit" />
 					</form>
@@ -79,10 +79,11 @@
 			
 		</table>
 		
-		<p th:text=${text}></p>
+		<p th:if="${messageDTO != null && messageDTO.isSuccessfully() == true}">Successfully deleted the car!</p>
+		<p th:if="${messageDTO != null && messageDTO.isSuccessfully() == false}">Delete not successfully!</p>
 		<br />
 		
-		<form action="/admin/addnewcarpage" method="post">
+		<form action="/admin/addnewcarpage" method="get">
 			<input type="submit" value="Add new car" />
 		</form>
 		

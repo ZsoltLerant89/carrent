@@ -1,5 +1,7 @@
 package pti.sb_carrent_mvc.service;
 
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -12,6 +14,7 @@ import pti.sb_carrent_mvc.db.Database;
 import pti.sb_carrent_mvc.dto.AdminDTO;
 import pti.sb_carrent_mvc.dto.CarDTO;
 import pti.sb_carrent_mvc.dto.CarDTOList;
+import pti.sb_carrent_mvc.dto.MessageDTO;
 import pti.sb_carrent_mvc.dto.ReservationDTO;
 import pti.sb_carrent_mvc.dto.ReservationListDTO;
 import pti.sb_carrent_mvc.dto.SuccessReservationDTO;
@@ -98,6 +101,9 @@ public class AppService {
 			long lenghtOfCurrentReservation = (ChronoUnit.DAYS.between(beginOfReservation,endOfReservation));
 			long priceOfReservation = (priceOfcar*lenghtOfCurrentReservation);
 			
+			Reservation reservation = new Reservation(name,email,tel,carId,beginOfReservation,endOfReservation);
+			db.saveReservation(reservation);
+			
 			sucessReservationDTO = new SuccessReservationDTO(name,
 															 email, 
 															 address, 
@@ -105,11 +111,10 @@ public class AppService {
 															 car.getType(), 
 															 beginOfReservation, 
 															 endOfReservation,
-															 priceOfReservation
+															 priceOfReservation,
+															 reservation.getReservationId()
 															 );
-			
-			Reservation reservation = new Reservation(name,email,tel,carId,beginOfReservation,endOfReservation);
-			db.saveReservation(reservation);
+	
 		}
 		
 		return sucessReservationDTO;
@@ -279,14 +284,30 @@ public class AppService {
 		return carDTO;
 	}
 
-	public void deleteCar(int carId) {
+	public MessageDTO deleteCar(int carId) {
 		
 		Car car = db.getCarById(carId);
 		
+		MessageDTO messageDTO = new MessageDTO(true);
+		
 		if (car != null)
 		{
-			db.deleteCar(car);
+			try
+			{
+				db.deleteCar(car);
+			}
+			catch(Exception e)
+			{
+				messageDTO.setSuccessfully(false);
+			}
 		}
+		else
+		{
+			messageDTO.setSuccessfully(false);
+		}
+		
+		
+		return messageDTO;
 		
 	}
 

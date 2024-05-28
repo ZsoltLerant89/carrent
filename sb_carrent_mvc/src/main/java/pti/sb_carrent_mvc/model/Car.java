@@ -26,6 +26,7 @@ public class Car {
 	private int reservationAmount;
 
 
+
 	public Car() {
 		super();
 	}

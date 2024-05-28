@@ -21,7 +21,7 @@
 		</style>
 	</head>
 	<body>
-		<form action="/car/edited" method="get">
+		<form action="/car/edited" method="post">
 			<input type="hidden" th:value="${carDTO.getCarid()}" name="carid" />
 	
 			<p>Type:</p>
@@ -29,7 +29,11 @@
 			<br />
 	
 			<p>Active(false/true):</p>
-			<input type="text" name="active" /> 
+			<select name="active">
+				<option>Option</option>
+				<option value="true">true</option>
+				<option value="false">false</option>
+			</select>
 			<br />
 	
 			<p>Reservation amount:</p>
@@ -57,12 +61,12 @@
 			</tr>
 		</table>
 		
-		<p th:text=${text}></p>
+		<p th:if="${messageDTO != null && messageDTO.isSuccessfully() == true}" >Successfully edited the car!</p>
+		<p th:if="${messageDTO != null && messageDTO.isSuccessfully() == false}">Error by edited!</p>
 		
 		<form action="/car/delete" method="post">
 			<input type="hidden" th:value="${carDTO.getCarid()}" name="carid" />
-			<input type="Submit" value="Delete car" />
-			
+			<input type="Submit" value="Delete car" />		
 		</form>
 		<br />
 		

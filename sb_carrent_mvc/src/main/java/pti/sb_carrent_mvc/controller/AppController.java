@@ -1,7 +1,6 @@
 package pti.sb_carrent_mvc.controller;
 
-import java.time.LocalDate;
-
+import java.time.LocalDate;import org.apache.logging.log4j.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pti.sb_carrent_mvc.dto.AdminDTO;
 import pti.sb_carrent_mvc.dto.CarDTO;
 import pti.sb_carrent_mvc.dto.CarDTOList;
+import pti.sb_carrent_mvc.dto.MessageDTO;
 import pti.sb_carrent_mvc.dto.ReservationDTO;
 import pti.sb_carrent_mvc.dto.SuccessReservationDTO;
 import pti.sb_carrent_mvc.service.AppService;
@@ -113,7 +113,7 @@ public class AppController {
 		return "admin.html";
 	}
 	
-	@PostMapping("/car/edit")
+	@GetMapping("/car/edit")
 	public String editCarPage(Model model,
 						 @RequestParam("carid") int carId
 						 )
@@ -124,7 +124,7 @@ public class AppController {
 		return "editcar.html";
 	}
 	
-	@GetMapping("/car/edited")
+	@PostMapping("/car/edited")
 	public String editCar(	Model model,
 							@RequestParam("carid") int carId,
 							@RequestParam("type") String type,
@@ -136,7 +136,18 @@ public class AppController {
 		CarDTO carDTO = service.updateCar(carId,type,active,reservationAmount);
 		model.addAttribute("carDTO", carDTO);
 		
-		model.addAttribute("text", "Successfully edited the car!");
+		MessageDTO messageDTO = null;
+		if(carDTO != null)
+		{
+			messageDTO = new MessageDTO(true);
+		}
+		else
+		{
+			messageDTO = new MessageDTO(false);
+		}
+		
+		model.addAttribute("messageDTO", messageDTO);
+		
 		
 		return "editcar.html";
 	}
@@ -145,23 +156,23 @@ public class AppController {
 	public String DeleteCar(Model model,
 							@RequestParam("carid") int carId)
 	{
-		service.deleteCar(carId);
+		MessageDTO messageDTO = service.deleteCar(carId);
+		model.addAttribute("messageDTO", messageDTO);
 		
 		AdminDTO adminDTO = service.getAdminDTO();
 		model.addAttribute("adminDTO", adminDTO);
-		
-		model.addAttribute("text", "Successfully deleted the car!");
+
 		
 		return "admin.html";
 	}
 	
-	@PostMapping("/admin/addnewcarpage")
+	@GetMapping("/admin/addnewcarpage")
 	public String loadAddNewCarPage()
 	{
 		return "addnewcar.html";
 	}
 	
-	@GetMapping("/addnewcarpage/addnewcar")
+	@PostMapping("/addnewcarpage/addnewcar")
 	public String addNewCar(Model model,
 							@RequestParam("type") String type,
 							@RequestParam("active") String active,
@@ -175,63 +186,5 @@ public class AppController {
 		return "addnewcar.html";
 	}
 	
-	/** Rest API */
-	@GetMapping("/freecars")
-	public String getFreeCars(	Model model,
-								@RequestParam("beginofreservation") LocalDate beginOfReservation,
-								@RequestParam("endofreservation") LocalDate endOfReservation
-								)
-	{
-		CarDTOList carDTOList = service.getCarDTOListFromRest(beginOfReservation, endOfReservation);
-		model.addAttribute("carDTOList", carDTOList);
-		
-		return "restindex.html";
-	}
 	
-	@GetMapping("/rest/index")
-	private String restIndexPage()
-	{
-		return "restindex.html";
-	}
-	
-	@PostMapping("/rest/restreservation")
-	public String restReservation(Model model,
-								 @RequestParam("carid") int carId,
-								 @RequestParam("beginofreservation") LocalDate beginOfReservation,
-								 @RequestParam("endofreservation") LocalDate endOfReservation
-								 )
-	{	
-		ReservationDTO reservationDTO = service.getRestReservationDTO(	carId,
-																		beginOfReservation,
-																		endOfReservation
-																		);
-		model.addAttribute("reservationDTO", reservationDTO);
-		
-		return "restreservation.html";
-	}
-	
-	
-	@PostMapping("/rest/restreservation/submit")
-	public String successReservationDTO(Model model,
-										@RequestParam("carid") int carId,
-										@RequestParam("name") String name,
-										@RequestParam("email") String email,
-										@RequestParam("address") String address,
-										@RequestParam("tel") String tel,
-										@RequestParam("beginofreservation") LocalDate beginOfReservation,
-										@RequestParam("endofreservation") LocalDate endOfReservation
-										)
-	{
-		SuccessReservationDTO successReservationDTO = service.setReservationByRest(	 carId,
-																					 name, 
-																					 email, 
-																					 address, 
-																					 tel, 
-																					 beginOfReservation, 
-																					 endOfReservation
-																					 );
-		model.addAttribute("successReservationDTO", successReservationDTO);
-		
-		return "restsuccessreservation.html";
-	}
 }

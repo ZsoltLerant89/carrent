@@ -22,7 +22,8 @@ public class SuccessReservationDTO {
 								 String type,
 								 LocalDate beginOfReservation, 
 								 LocalDate endOfReservation,
-								 long priceOfReservation
+								 long priceOfReservation,
+								 int reservationId
 								 ) 
 	{
 		super();
@@ -30,7 +31,7 @@ public class SuccessReservationDTO {
 		this.email = email;
 		this.address = address;
 		this.tel = tel;
-		this.reservationId = 0;
+		this.reservationId = reservationId;
 		this.type = type;
 		this.beginOfReservation = beginOfReservation;
 		this.endOfReservation = endOfReservation;

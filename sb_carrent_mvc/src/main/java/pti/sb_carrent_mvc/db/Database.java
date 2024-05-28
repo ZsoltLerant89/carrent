@@ -1,5 +1,7 @@
 package pti.sb_carrent_mvc.db;
 
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.util.List;
 
