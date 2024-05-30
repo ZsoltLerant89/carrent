@@ -6,7 +6,7 @@ COPY . .
 
 RUN mvn clean package -DskipTests
 
-RUN ./gradlew bootJar --no-daemon
+FROM openjdk:17.0.1-jdk-slim
 
 EXPOSE 8080
 
