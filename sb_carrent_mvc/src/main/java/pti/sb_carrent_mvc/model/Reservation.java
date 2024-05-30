@@ -35,9 +35,6 @@ public class Reservation {
 	
 	@Column(name = "endofreservation")
 	private LocalDate endOfReservation;
-	
-//	@Column(name = "priceofreservation")
-//	private long  priceOfReservation;
 
 	
 	public Reservation() {
@@ -123,14 +120,4 @@ public class Reservation {
 		this.endOfReservation = endOfReservation;
 	}
 
-
-	@Override
-	public String toString() {
-		return "Reservation [reservationId=" + reservationId + ", name=" + name + ", email=" + email + ", tel=" + tel
-				+ ", carId=" + carId + ", beginOfReservation=" + beginOfReservation + ", endOfReservation="
-				+ endOfReservation + "]";
-	}
-
-
-	
 }

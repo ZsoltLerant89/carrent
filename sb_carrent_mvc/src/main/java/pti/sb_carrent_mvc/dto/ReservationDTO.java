@@ -9,7 +9,11 @@ public class ReservationDTO {
 	private LocalDate endOfResetvation;
 	
 	
-	public ReservationDTO(int carId, LocalDate beginOfReservation, LocalDate endOfResetvation) {
+	public ReservationDTO(	int carId,
+							LocalDate beginOfReservation,
+							LocalDate endOfResetvation
+							) 
+	{
 		super();
 		this.carId = carId;
 		this.beginOfReservation = beginOfReservation;
@@ -42,12 +46,5 @@ public class ReservationDTO {
 		this.endOfResetvation = endOfResetvation;
 	}
 
-
-	@Override
-	public String toString() {
-		return "ReservationDTO [carId=" + carId + ", beginOfReservation=" + beginOfReservation + ", endOfResetvation="
-				+ endOfResetvation + "]";
-	}
-	
 	
 }

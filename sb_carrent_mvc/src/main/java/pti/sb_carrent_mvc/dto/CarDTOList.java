@@ -51,16 +51,4 @@ public class CarDTOList {
 	}
 
 
-	@Override
-	public String toString() {
-		return "CarDTOList [carList=" + carList + ", beginOfReservation=" + beginOfReservation + ", endOfReservation="
-				+ endOfReservation + "]";
-	}
-
-
-	
-
-	
-	
-	
 }

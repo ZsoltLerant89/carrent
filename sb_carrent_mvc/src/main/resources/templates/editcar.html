@@ -4,6 +4,7 @@
 		<meta charset="UTF-8">
 		<title>Edit car</title>
 		<style>
+			
 			table {
 				border-collapse: collapse;
 				width: 80%;
@@ -13,36 +14,107 @@
 				padding: 8px;
 				text-align: left;
 				border-bottom: 1px solid #DDD;
+				font-variant: small-caps;
+				font-style: italic;
 			}
 			
-			tr:hover {
+			.trclass:hover {
 				background-color: #D6EEEE;
+			}
+			
+			.editcar 
+			{
+				font-family: font-family: "Times New Roman", Times, serif;
+				letter-spacing: 1px;
+				border: 1px solid #DDD;
+				padding: 8px;
+				width:185px;	
+			}
+			
+			p
+			{
+				font-variant: small-caps;
+			}
+			
+			input[type=text],input[type=number]
+			{
+				width: 100%;
+				padding: 4px 8px;
+				margin: 10px 0;
+				display: inline-block;
+				border: 1px solid #ccc;
+				border-radius: 4px;
+				box-sizing: border-box;
+				font-family: font-family: "Times New Roman", Times, serif;
+				letter-spacing: 1px;
+			}
+			
+			select 
+			{
+				width: 100%;
+				padding: 2px 2px;
+				margin: 10px 0;
+				display: inline-block;
+				border: 1px solid #ccc;
+				border-radius: 4px;
+				box-sizing: border-box;
+				font-family: font-family: "Times New Roman", Times, serif;
+				letter-spacing: 1px;
+			}
+			
+			input[type=submit]
+			{
+				background-color: #54655b;
+			 	border: none;
+				color: white;
+				padding: 10px 18px;
+				text-decoration: none;
+				margin: 4px 2px;
+				cursor: pointer;
+			 }
+						
+			.editcar
+			{
+				font-family: font-family: "Times New Roman", Times, serif;
+				letter-spacing: 1px;
+			}
+			
+			h4
+			{
+				margin: 0 0;
+				padding: 0 0;
 			}
 		</style>
 	</head>
 	<body>
-		<form action="/car/edited" method="post">
+	
+		<form class="editcar" action="/car/edited" enctype="multipart/form-data" method="post">
 			<input type="hidden" th:value="${carDTO.getCarid()}" name="carid" />
 	
-			<p>Type:</p>
+			<h4>Type:</h4>
 			<input type="text" name="type" /> 
 			<br />
-	
-			<p>Active(false/true):</p>
+			<br />
+			
+			<h4>Reservation amount:</h4>
+			<input type="number" name="reservationamount" /> 
+			<br />
+			<br /> 
+			
+			<h4>Active/Inactive:</h4>
 			<select name="active">
-				<option>Option</option>
-				<option value="true">true</option>
-				<option value="false">false</option>
+				<option value="true">active</option>
+				<option value="false">inactive</option>
 			</select>
 			<br />
-	
-			<p>Reservation amount:</p>
-			<input type="number" name="reservationamount" /> 
 			<br /> 
-			<br /> 
+			<input type="file" name="file" />
+			<br />
+			<br />
 			
 			<input type="submit" value="Send" />
 		</form>
+		<br />
 		<br />
 		
 		<table>
@@ -51,18 +123,21 @@
 				<th>Type</th>
 				<th>Active</th>
 				<th>Fee</th>
+				<th></th>
 			</tr>
 	
-			<tr>
+			<tr class="trclass">
 				<td th:text="${carDTO.getCarid()}"></td>
 				<td th:text="${carDTO.getType()}"></td>
 				<td th:text="${carDTO.isActiveString()}"></td>
 				<td th:text="${carDTO.getFee() + ' Ft'}"></td>
+				<td><img th:src="'data:image/jpeg;base64,' + ${carDTO.getBase64String()}" width="200"></td>
 			</tr>
 		</table>
 		
 		<p th:if="${messageDTO != null && messageDTO.isSuccessfully() == true}" >Successfully edited the car!</p>
 		<p th:if="${messageDTO != null && messageDTO.isSuccessfully() == false}">Error by edited!</p>
+		<br />
 		
 		<form action="/car/delete" method="post">
 			<input type="hidden" th:value="${carDTO.getCarid()}" name="carid" />

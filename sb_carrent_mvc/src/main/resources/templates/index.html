@@ -17,35 +17,106 @@
 			  border-bottom: 1px solid #DDD;
 			}
 			
-			tr:hover {background-color: #D6EEEE;}
+			.trclass:hover {background-color: #D6EEEE;}
+			
+			.searchdateform 
+			{
+				font-family: font-family: "Times New Roman", Times, serif;
+				letter-spacing: 1px;
+				border: 1px solid #DDD;
+				padding: 8px;
+				width:185px;	
+			}
+			
+			p
+			{
+				font-variant: small-caps;
+			}
+			
+			th,td,h2,h4
+			{
+				font-variant: small-caps;
+				font-style: italic;
+			}
+			
+			input[type=date]
+			{
+				width: 100%;
+				padding: 4px 8px;
+				margin: 10px 0;
+				display: inline-block;
+				border: 1px solid #ccc;
+				border-radius: 4px;
+				box-sizing: border-box;
+				font-family: font-family: "Times New Roman", Times, serif;
+				letter-spacing: 1px;
+			}
+			
+			select 
+			{
+				width: 5%;
+				padding: 2px 2px;
+				margin: 10px 0;
+				display: inline-block;
+				border: 1px solid #ccc;
+				border-radius: 4px;
+				box-sizing: border-box;
+				font-family: font-family: "Times New Roman", Times, serif;
+				letter-spacing: 1px;
+			}
+			
+			input[type=submit]
+			{
+				background-color: #54655b;
+			 	border: none;
+				color: white;
+				padding: 10px 18px;
+				text-decoration: none;
+				margin: 4px 2px;
+				cursor: pointer;
+			 }
+			
+			h4
+			{
+				margin: 10px 0;
+				padding: 0 0;
+			}
+			
 		</style>
 	</head>
 	<body>
-		<form action="/car/search" method="get">
-			<p>Begin of reservation:</p>
+	
+		<form  class="searchdateform" action="/car/search" method="get">
+			<h4>Begin of reservation:</h4>
 			<input type="date" name="beginofreservation"/>
 			<br/>
-			<p>End of reservation:</p>
+			<br/>
+			<h4>End of reservation:</h4>
 			<input type="date" name="endofreservation"/>
 			<br/>
 			<br/>
 			<input type="submit" value="Search" />
 		</form>
-		
+		<br />
+		<br />	
+				
 		<table th:if="${carDTOList != null}">
-			<h3>Avaliable cars: </h3>
+			<h2>Avaliable cars: </h2>
+				
 			<tr>
 				<th>Car ID</th>
 				<th>Type</th>
 				<th>Fee</th>
 				<th></th>
+				<th></th>
 			</tr>
 			
-			<tr th:each="carDTO : ${carDTOList.getCarList()}">
+			<tr class="trclass" th:each="carDTO : ${carDTOList.getCarList()}">
 				<td th:text="${carDTO.getCarid()}" ></td>
 				
 				<td th:text="${carDTO.getType()}"></td>
 				<td th:text="${carDTO.getFee()}"></td>
+				<td><img th:src="'data:image/jpeg;base64,' + ${carDTO.getBase64String()}" width="200"></td>
 				<td>
 					<form action="/car/reservation" method="post">
 						<input type="hidden" th:value="${carDTO.getCarid()}" name="carid"/>
@@ -57,6 +128,6 @@
 			</tr>	
 			
 		</table>
-		
+
 	</body>
 </html>

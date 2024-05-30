@@ -1,5 +1,6 @@
 package pti.sb_carrent_mvc.service;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
@@ -9,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import pti.sb_carrent_mvc.db.Database;
 import pti.sb_carrent_mvc.dto.AdminDTO;
@@ -48,14 +50,18 @@ public class AppService {
 				Car currentCar = carList.get(index);
 			
 				/** Get reservations for current car */
-				List<Reservation> reservationList = db.getReservationByCarIdWithinPeriods(currentCar.getCarId(),beginOfReservation,endOfReservation);
+				List<Reservation> reservationList = db.getReservationByCarIdWithinPeriods(	currentCar.getCarId(),
+																							beginOfReservation,
+																							endOfReservation
+																							);
 			
 				if (reservationList.size() == 0)
 				{
 							CarDTO carDTO = new CarDTO(	currentCar.getCarId(),
 														currentCar.getType(),
 														currentCar.getReservationAmount(),
-														currentCar.isActive()
+														currentCar.isActive(),
+														currentCar.getImg()
 														);
 							
 							carDTOList.addToCarList(carDTO);
@@ -70,7 +76,11 @@ public class AppService {
 		return carDTOList;
 	}
 
-	public ReservationDTO getReservationDTO(int carId, LocalDate beginOfReservation, LocalDate endOfReservation) {
+	public ReservationDTO getReservationDTO(int carId,
+											LocalDate beginOfReservation,
+											LocalDate endOfReservation
+											) 
+	{
 		
 		ReservationDTO reservationDTO = new ReservationDTO(	carId,
 															beginOfReservation, 
@@ -101,7 +111,14 @@ public class AppService {
 			long lenghtOfCurrentReservation = (ChronoUnit.DAYS.between(beginOfReservation,endOfReservation));
 			long priceOfReservation = (priceOfcar*lenghtOfCurrentReservation);
 			
-			Reservation reservation = new Reservation(name,email,tel,carId,beginOfReservation,endOfReservation);
+			Reservation reservation = new Reservation(	name,
+														email,
+														tel,
+														carId,
+														beginOfReservation,
+														endOfReservation
+														);
+			
 			db.saveReservation(reservation);
 			
 			sucessReservationDTO = new SuccessReservationDTO(name,
@@ -156,7 +173,8 @@ public class AppService {
 				CarDTO currentCarDTO = new CarDTO(	currentCar.getCarId(),
 													currentCar.getType(),
 													currentCar.getReservationAmount(),
-													currentCar.isActive()
+													currentCar.isActive(),
+													currentCar.getImg()
 													);
 				carListDTO.addToCarList(currentCarDTO);
 			}
@@ -184,7 +202,8 @@ public class AppService {
 				CarDTO currentCarDTO = new CarDTO(	currentCar.getCarId(),
 													currentCar.getType(),
 													currentCar.getReservationAmount(),
-													currentCar.isActive()
+													currentCar.isActive(),
+													currentCar.getImg()
 													);
 				adminDTO.addCarDTOToCarList(currentCarDTO);
 			}
@@ -221,7 +240,13 @@ public class AppService {
 		}
 	}
 
-	public CarDTO updateCar(int carId, String type, String active, int reservationAmount) {
+	public CarDTO updateCar(int carId,
+							String type,
+							String active,
+							int reservationAmount,
+							MultipartFile file
+							) throws IOException 
+	{
 		
 		CarDTO carDTO = null;
 		
@@ -231,20 +256,28 @@ public class AppService {
 		if(car != null)
 		{
 			
-			boolean isActive = false;
-			
-			if(active.equals("true"))
-			{
-				isActive = true;
-			}
-			
-			car.setType(type);
-			car.setActive(isActive);
-			car.setReservationAmount(reservationAmount);
-			
-			carDTO = new CarDTO(car.getCarId(),car.getType(),car.getReservationAmount(),car.isActive());
-			
-			db.updateCar(car);
+				boolean isActive = false;
+				
+				if(active.equals("true"))
+				{
+					isActive = true;
+				}
+				
+				byte[] bFile = file.getBytes(); 
+				
+				car.setType(type);
+				car.setActive(isActive);
+				car.setReservationAmount(reservationAmount);
+				car.setImg(bFile);
+				
+				carDTO = new CarDTO(car.getCarId(),
+									car.getType(),
+									car.getReservationAmount(),
+									car.isActive(),
+									car.getImg()
+									);
+				
+				db.updateCar(car);
 		}
 		
 		return carDTO;
@@ -258,13 +291,23 @@ public class AppService {
 		
 		if(car != null)
 		{
-			carDTO = new CarDTO(car.getCarId(),car.getType(),car.getReservationAmount(),car.isActive());
+			carDTO = new CarDTO(car.getCarId(),
+								car.getType(),
+								car.getReservationAmount(),
+								car.isActive(),
+								car.getImg()
+								);
 		}
 		
 		return carDTO;
 	}
 
-	public CarDTO addNewCar(String type, String active, int reservationAmount) {
+	public CarDTO addNewCar(String type,
+							String active, 
+							int reservationAmount, 
+							MultipartFile file
+							) throws IOException 
+	{
 		
 		CarDTO carDTO = null;
 		
@@ -275,11 +318,21 @@ public class AppService {
 			isActive = true;
 		}
 		
-		Car car = new Car(type,isActive,reservationAmount);
+		byte[] bFile = file.getBytes(); 
+		
+		Car car = new Car(	type,
+							isActive,
+							reservationAmount
+							);
+		car.setImg(bFile);
+		
+		carDTO = new CarDTO(car.getCarId(),
+							car.getType(),
+							car.getReservationAmount(),
+							car.isActive(),car.getImg()
+							);
 		
 		db.saveCar(car);
-		
-		carDTO = new CarDTO(car.getCarId(),car.getType(),car.getReservationAmount(),car.isActive());
 		
 		return carDTO;
 	}
@@ -311,7 +364,9 @@ public class AppService {
 		
 	}
 
-	public CarDTOList getCarDTOListFromRest(LocalDate beginOfReservation, LocalDate endOfReservation) 
+	public CarDTOList getCarDTOListFromRest(LocalDate beginOfReservation,
+											LocalDate endOfReservation
+											) 
 	{	
 		
 		RestTemplate rt = new RestTemplate();
@@ -363,5 +418,4 @@ public class AppService {
 		return sucessReservationDTO;
 	}
 
-	
 }

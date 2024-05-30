@@ -3,27 +3,96 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Reservation</title>
+		<style>
+			.submitform 
+			{
+				font-family: font-family: "Times New Roman", Times, serif;
+				letter-spacing: 1px;
+				border: 1px solid #DDD;
+				padding: 8px;
+				width:185px;	
+			}
+			
+			p
+			{
+				font-variant: small-caps;
+			}
+			
+			th,td,h4
+			{
+				font-variant: small-caps;
+				font-style: italic;
+			}
+			
+			input[type=text],input[type=number]
+			{
+				width: 100%;
+				padding: 4px 8px;
+				margin: 10px 0;
+				display: inline-block;
+				border: 1px solid #ccc;
+				border-radius: 4px;
+				box-sizing: border-box;
+				font-family: font-family: "Times New Roman", Times, serif;
+				letter-spacing: 1px;
+			}
+			
+			select 
+			{
+				width: 100%;
+				padding: 2px 2px;
+				margin: 10px 0;
+				display: inline-block;
+				border: 1px solid #ccc;
+				border-radius: 4px;
+				box-sizing: border-box;
+				font-family: font-family: "Times New Roman", Times, serif;
+				letter-spacing: 1px;
+			}
+			
+			input[type=submit]
+			{
+				background-color: #54655b;
+			 	border: none;
+				color: white;
+				padding: 10px 18px;
+				text-decoration: none;
+				margin: 4px 2px;
+				cursor: pointer;
+			 }
+			 
+			 h4
+			{
+				margin: 0 0;
+				padding: 0 0;
+			}
+
+		</style>
 	</head>
 	<body>
-		<form action="/car/reservation/submit" method="post">
+	
+		<form class="submitform" action="/car/reservation/submit" method="post">
 		
 			<input type="hidden" th:value="${reservationDTO.getCarId()}" name="carid"/>
 			
-			<label for="name">Name:</label>
+			<h4>Name:</h4>
 			<input type="text"  name="name"/>
-			<br/><br/>
+			<br/>
+			<br/>
 			
-			<label for="email">Email:</label>
+			<h4 for="email">Email:</h4>
 			<input type="text"  name="email"/>
-			<br/><br/>
+			<br/>
+			<br/>
 			
-			<label for="address">Address:</label>
+			<h4>Address:</h4>
 			<input type="text"  name="address"/>
 			<br/><br/>
 			
-			<label for="tel">Tel.:</label>
+			<h4 for="tel">Tel.:</h4>
 			<input type="text"  name="tel"/>
-			<br/><br/>
+			<br/>
+			<br/>
 			
 			<input type="hidden" th:value="${reservationDTO.getBeginOfReservation()}" name="beginofreservation"/>
 			
@@ -32,8 +101,6 @@
 			
 			<input type="submit" value="Submit" />
 			
-		</form>
-		
-		
+		</form>	
 	</body>
 </html>

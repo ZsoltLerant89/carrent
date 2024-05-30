@@ -6,23 +6,55 @@
 		<style>
 			table 
 			{
-			  border-collapse: collapse;
-			  width: 80%;
+			 	border-collapse: collapse;
+			 	width: 80%;
 			}
 			
 			th, td 
 			{
-			  padding: 8px;
-			  text-align: left;
-			  border-bottom: 1px solid #DDD;
+			 	padding: 8px;
+			  	text-align: left;
+			  	border-bottom: 1px solid #DDD;
 			}
 			
-			tr:hover {background-color: #D6EEEE;}
+			.trclass:hover {background-color: #D6EEEE;}
+				
+			.editcar 
+			{
+				font-family: font-family: "Times New Roman", Times, serif;
+				letter-spacing: 1px;
+				border: 1px solid #DDD;
+				padding: 8px;
+				width:185px;	
+			}
+			
+			p
+			{
+				font-variant: small-caps;
+			}
+			
+			th,td,h2
+			{
+				font-variant: small-caps;
+				font-style: italic;
+			}
+			
+			input[type=submit]
+			{
+				background-color: #54655b;
+			 	border: none;
+				color: white;
+				padding: 16px 32px;
+				text-decoration: none;
+				margin: 4px 2px;
+				cursor: pointer;
+			 }
 		</style>
 	</head>
 	<body>
+	
 		<table th:if="${adminDTO != null}">
-			<h3>Reservations: </h3>
+			<h2>Reservations: </h2>
 			<tr>
 				<th>Reservation ID</th>
 				<th>Name</th>
@@ -33,7 +65,7 @@
 				<th>End of reservation</th>
 			</tr>
 			
-			<tr th:each="reservation : ${adminDTO.getReservationList()}">
+			<tr class="trclass" th:each="reservation : ${adminDTO.getReservationList()}">
 				<td th:text="${reservation.getReservationId()}" ></td>
 				<td th:text="${reservation.getName()}"></td>
 				<td th:text="${reservation.getEmail()}"></td>
@@ -45,9 +77,11 @@
 			</tr>	
 			
 		</table>
-		<br/><br/>
+		<br/>
+		<br/>
+		
 		<table th:if="${adminDTO != null}">
-			<h3>Cars: </h3>
+			<h2>Cars: </h2>
 			<tr>
 				<th>Car ID</th>
 				<th>Type</th>
@@ -55,13 +89,15 @@
 				<th>Active</th>
 				<th></th>
 				<th></th>
+				<th></th>
 			</tr>
 			
-			<tr th:each="carDTO : ${adminDTO.getCarList()}">
+			<tr class="trclass" th:each="carDTO : ${adminDTO.getCarList()}">
 				<td th:text="${carDTO.getCarid()}" ></td>	
 				<td th:text="${carDTO.getType()}"></td>
 				<td th:text="${carDTO.getFee() + ' Ft'}"></td>
 				<td th:text="${carDTO.isActiveString()}"></td>
+				<td><img th:src="'data:image/jpeg;base64,' + ${carDTO.getBase64String()}" width="200"></td>
 				
 				<td>
 					<form action="/car/activate" method="post">

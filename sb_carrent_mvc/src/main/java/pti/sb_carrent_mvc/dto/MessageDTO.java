@@ -4,11 +4,13 @@ public class MessageDTO {
 
 	private boolean successfully;
 
+	
 	public MessageDTO(boolean successfully) {
 		super();
 		this.successfully = successfully;
 	}
 
+	
 	public boolean isSuccessfully() {
 		return successfully;
 	}
@@ -17,7 +19,5 @@ public class MessageDTO {
 		this.successfully = successfully;
 	}
 	
-	
-	
-	
+		
 }

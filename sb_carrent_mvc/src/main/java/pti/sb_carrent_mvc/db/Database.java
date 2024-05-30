@@ -1,7 +1,5 @@
 package pti.sb_carrent_mvc.db;
 
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -46,10 +44,11 @@ public class Database {
 		tx.commit();
 		session.close();
 		
+		
 		return carList;
 	}
 	
-public List<Car> getActiveCars() {
+	public List<Car> getActiveCars() {
 		
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
@@ -60,6 +59,7 @@ public List<Car> getActiveCars() {
 		
 		tx.commit();
 		session.close();
+		
 		
 		return carList;
 	}
@@ -89,6 +89,7 @@ public List<Car> getActiveCars() {
 		tx.commit();
 		session.close();
 
+		
 		return reservationList;
 	}
 	
@@ -101,6 +102,7 @@ public List<Car> getActiveCars() {
 		
 		tx.commit();
 		session.close();
+		
 		
 		return car;
 	}
@@ -130,6 +132,7 @@ public List<Car> getActiveCars() {
 		
 		tx.commit();
 		session.close();
+		
 		
 		return reservationList;
 		
@@ -170,6 +173,5 @@ public List<Car> getActiveCars() {
 		session.close();
 		
 	}
-	
-	
+
 }

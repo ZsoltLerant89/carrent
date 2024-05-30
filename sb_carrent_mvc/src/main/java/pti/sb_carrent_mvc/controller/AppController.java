@@ -1,12 +1,15 @@
 package pti.sb_carrent_mvc.controller;
 
-import java.time.LocalDate;import org.apache.logging.log4j.message.Message;
+import java.io.IOException;
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import pti.sb_carrent_mvc.dto.AdminDTO;
 import pti.sb_carrent_mvc.dto.CarDTO;
@@ -21,15 +24,18 @@ public class AppController {
 
 	private AppService service;
 
+	
 	@Autowired
 	public AppController(AppService service) {
 		super();
 		this.service = service;
 	}
 	
+	
 	@GetMapping("/")
 	private String indexPage()
 	{
+		
 		return "index.html";
 	}
 	
@@ -40,7 +46,9 @@ public class AppController {
 						)
 	{
 		
-		CarDTOList carDTOList = service.getCarDTOList(beginOfReservation, endOfReservation);
+		CarDTOList carDTOList = service.getCarDTOList(	beginOfReservation,
+													  	endOfReservation
+													  	);
 		model.addAttribute("carDTOList", carDTOList);
 		
 		
@@ -59,6 +67,7 @@ public class AppController {
 																	endOfReservation
 																	);
 		model.addAttribute("reservationDTO", reservationDTO);
+		
 		
 		return "reservation.html";
 	}
@@ -85,6 +94,7 @@ public class AppController {
 																			 );
 		model.addAttribute("successReservationDTO", successReservationDTO);
 		
+		
 		return "successreservation.html";
 	}
 	
@@ -110,6 +120,7 @@ public class AppController {
 		AdminDTO adminDTO = service.getAdminDTO();
 		model.addAttribute("adminDTO", adminDTO);
 		
+		
 		return "admin.html";
 	}
 	
@@ -121,6 +132,7 @@ public class AppController {
 		CarDTO carDTO = service.getCarDTO(carId);
 		model.addAttribute("carDTO", carDTO);
 		
+		
 		return "editcar.html";
 	}
 	
@@ -129,14 +141,21 @@ public class AppController {
 							@RequestParam("carid") int carId,
 							@RequestParam("type") String type,
 							@RequestParam("active") String active,
-							@RequestParam("reservationamount") int reservationAmount				
-							)
+							@RequestParam("reservationamount") int reservationAmount,
+							@RequestParam("file") MultipartFile file
+							) throws IOException
 	{
 		
-		CarDTO carDTO = service.updateCar(carId,type,active,reservationAmount);
+		CarDTO carDTO = service.updateCar(	carId,
+											type,
+											active,
+											reservationAmount,
+											file
+											);
 		model.addAttribute("carDTO", carDTO);
 		
 		MessageDTO messageDTO = null;
+		
 		if(carDTO != null)
 		{
 			messageDTO = new MessageDTO(true);
@@ -176,15 +195,20 @@ public class AppController {
 	public String addNewCar(Model model,
 							@RequestParam("type") String type,
 							@RequestParam("active") String active,
-							@RequestParam("reservationamount") int reservationAmount				
-							)
+							@RequestParam("reservationamount") int reservationAmount,
+							@RequestParam("file") MultipartFile file
+							) throws IOException
 	{
 		
-		CarDTO carDTO = service.addNewCar(type,active,reservationAmount);
+		CarDTO carDTO = service.addNewCar(	type,
+											active,
+											reservationAmount,
+											file
+											);
 		model.addAttribute("carDTO", carDTO);
+		
 		
 		return "addnewcar.html";
 	}
-	
 	
 }

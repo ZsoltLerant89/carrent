@@ -1,10 +1,13 @@
 package pti.sb_carrent_mvc.model;
 
+import org.springframework.util.Base64Utils;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,19 +28,26 @@ public class Car {
 	@Column(name = "reservationamount")
 	private int reservationAmount;
 
-
+	@Lob
+	@Column(name = "img")
+	private byte[] img;
 
 	public Car() {
 		super();
 	}
 
 
-	public Car(String type, boolean active, int reservationAmount) {
+	public Car(	String type,
+				boolean active,
+				int reservationAmount
+				) 
+	{
 		super();
 		this.carId = 0;
 		this.type = type;
 		this.active = active;
 		this.reservationAmount = reservationAmount;
+		this.img = null;
 	}
 
 
@@ -72,19 +82,13 @@ public class Car {
 	public void setReservationAmount(int reservationAmount) {
 		this.reservationAmount = reservationAmount;
 	}
-
-
-	@Override
-	public String toString() {
-		return "Car [carId=" + carId + ", type=" + type + ", active=" + active + ", reservationAmount="
-				+ reservationAmount + "]";
+	
+	public byte[] getImg() {
+		return img;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
+	public void setImg(byte[] img) {
+		this.img = img;
+	}
+
 }

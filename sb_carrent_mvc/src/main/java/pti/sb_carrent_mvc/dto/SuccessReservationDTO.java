@@ -112,13 +112,4 @@ public class SuccessReservationDTO {
 	}
 
 
-	@Override
-	public String toString() {
-		return "SuccessReservationDTO [name=" + name + ", email=" + email + ", address=" + address + ", tel=" + tel
-				+ ", reservationId=" + reservationId + ", type=" + type + ", beginOfReservation=" + beginOfReservation
-				+ ", endOfReservation=" + endOfReservation + ", priceOfReservation=" + priceOfReservation + "]";
-	}
-
-
-
 }

@@ -44,12 +44,5 @@ public class AdminDTO {
 		this.carList.add(carDTO);
 	}
 
-
-	@Override
-	public String toString() {
-		return "AdminDTO [reservationList=" + reservationList + ", carList=" + carList + "]";
-	}
-	
-	
 	
 }

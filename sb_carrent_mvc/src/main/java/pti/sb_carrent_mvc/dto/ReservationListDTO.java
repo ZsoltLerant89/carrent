@@ -9,11 +9,13 @@ public class ReservationListDTO {
 
 	private List<Reservation> reservationList;
 
+	
 	public ReservationListDTO() {
 		super();
 		this.reservationList = new ArrayList<>();
 	}
 
+	
 	public List<Reservation> getReservationList() {
 		return reservationList;
 	}
@@ -27,12 +29,5 @@ public class ReservationListDTO {
 		this.reservationList.add(reservation);
 	}
 
-	@Override
-	public String toString() {
-		return "ReservationListDTO [reservationList=" + reservationList + "]";
-	}
-	
-	
-	
-	
+
 }

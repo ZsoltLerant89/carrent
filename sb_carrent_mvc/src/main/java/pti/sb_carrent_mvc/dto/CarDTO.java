@@ -1,18 +1,30 @@
 package pti.sb_carrent_mvc.dto;
 
+import java.util.Base64;
+
+import org.springframework.util.Base64Utils;
+
 public class CarDTO {
 	
 	private int carid;
 	private String type;
 	private int fee;
 	private boolean active;
+	private byte[] img;
 	
-	public CarDTO(int carid, String type, int fee, boolean active) {
+	public CarDTO(	int carid,
+					String type,
+					int fee,
+					boolean active,
+					byte[] img
+					) 
+	{
 		super();
 		this.carid = carid;
 		this.type = type;
 		this.fee = fee;
 		this.active = active;
+		this.img = img;
 	}
 
 
@@ -63,16 +75,22 @@ public class CarDTO {
 		
 		return result;
 	}
+	
+	public byte[] getImg() {
+		return img;
+	}
 
-	@Override
-	public String toString() {
-		return "CarDTO [carid=" + carid + ", type=" + type + ", fee=" + fee + ", active=" + active + "]";
+	public void setImg(byte[] img) {
+		this.img = img;
 	}
 
 
-	
+	public String getBase64String()
+	{
+		String base64String = Base64.getEncoder().encodeToString(img);
+		
+		return base64String;
+	}
 
 	
-	
-
 }
