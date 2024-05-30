@@ -363,59 +363,6 @@ public class AppService {
 		return messageDTO;
 		
 	}
-
-	public CarDTOList getCarDTOListFromRest(LocalDate beginOfReservation,
-											LocalDate endOfReservation
-											) 
-	{	
-		
-		RestTemplate rt = new RestTemplate();
-		CarDTOList carDTOList = rt.getForObject("http://localhost:8081/getfreecars?beginofreservation=" + beginOfReservation + 
-												"&endofreservation=" + endOfReservation ,
-												CarDTOList.class
-												);
-		
-		return carDTOList;
-	}
-
-	public ReservationDTO getRestReservationDTO(int carId, 
-												LocalDate beginOfReservation, 
-												LocalDate endOfReservation
-												) 
-	{
-		
-		RestTemplate rt = new RestTemplate();
-		ReservationDTO reservationDTO = rt.getForObject("http://localhost:8081/reservation?carid=" + carId + 
-														"&beginofreservation=" + beginOfReservation + 
-														"&endofreservation=" + endOfReservation,
-														ReservationDTO.class
-														);
-
-		return reservationDTO;
-	}
 	
-	public SuccessReservationDTO setReservationByRest(	int carId,
-														String name, 
-														String email, 
-														String address, 
-														String tel,
-														LocalDate beginOfReservation,
-														LocalDate endOfReservation
-														) 
-	{
-		
-		RestTemplate rt = new RestTemplate();
-		SuccessReservationDTO sucessReservationDTO = rt.getForObject("http://localhost:8081/setreservation?carid=" + carId + 
-																	 "&name=" + name + 
-																	 "&email=" + email + 
-																	 "&address=" + address + 
-																	 "&tel=" + tel + 
-																	 "&beginofreservation=" + beginOfReservation + 
-																	 "&endofreservation=" + endOfReservation, 
-																	 SuccessReservationDTO.class
-																	 );
-		
-		return sucessReservationDTO;
-	}
 
 }
