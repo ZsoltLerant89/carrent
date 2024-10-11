@@ -26,6 +26,7 @@
 				border: 1px solid #DDD;
 				padding: 8px;
 				width:185px;	
+				margin: auto;
 			}
 			
 			p
@@ -82,6 +83,16 @@
 				padding: 0 0;
 			}
 			
+			.searchForADate{
+				width: 20%;
+				margin: auto;
+			}
+			
+			.avaliablecars{
+				width: 70%;
+				margin: auto;
+			}
+			
 		</style>
 	</head>
 	<body>
@@ -99,9 +110,10 @@
 		</form>
 		<br />
 		<br />	
-				
-		<table th:if="${carDTOList != null}">
-			<h2>Avaliable cars: </h2>
+		
+		<table class="avaliablecars" th:if="${carDTOList != null}">
+		
+			<h2 class="avaliablecars">Avaliable cars: </h2>
 				
 			<tr>
 				<th>Car ID</th>
@@ -115,7 +127,7 @@
 				<td th:text="${carDTO.getCarid()}" ></td>
 				
 				<td th:text="${carDTO.getType()}"></td>
-				<td th:text="${carDTO.getFee()}"></td>
+				<td th:text="${carDTO.getFee()+ ' Ft'}"></td>
 				<td><img th:src="'data:image/jpeg;base64,' + ${carDTO.getBase64String()}" width="200"></td>
 				<td>
 					<form action="/car/reservation" method="post">
@@ -128,6 +140,6 @@
 			</tr>	
 			
 		</table>
-
+		
 	</body>
 </html>

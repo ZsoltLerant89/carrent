@@ -4,14 +4,15 @@
 		<meta charset="UTF-8">
 		<title>Admin</title>
 		<style>
-			table 
-			{
+			table {
+			
 			 	border-collapse: collapse;
 			 	width: 80%;
+			 	margin: auto;
 			}
 			
-			th, td 
-			{
+			th, td {
+			 	
 			 	padding: 8px;
 			  	text-align: left;
 			  	border-bottom: 1px solid #DDD;
@@ -19,8 +20,8 @@
 			
 			.trclass:hover {background-color: #D6EEEE;}
 				
-			.editcar 
-			{
+			.editcar {
+				
 				font-family: font-family: "Times New Roman", Times, serif;
 				letter-spacing: 1px;
 				border: 1px solid #DDD;
@@ -28,19 +29,26 @@
 				width:185px;	
 			}
 			
-			p
-			{
+			p{
+				
 				font-variant: small-caps;
 			}
 			
-			th,td,h2
-			{
+			th,td,h2{
+				
 				font-variant: small-caps;
 				font-style: italic;
 			}
 			
-			input[type=submit]
-			{
+			h2{
+			
+				font-size: 35px;
+				text-align: center;
+				margin: auto;
+			}
+			
+			input[type=submit]{
+			
 				background-color: #54655b;
 			 	border: none;
 				color: white;
@@ -49,6 +57,7 @@
 				margin: 4px 2px;
 				cursor: pointer;
 			 }
+
 		</style>
 	</head>
 	<body>
@@ -81,7 +90,7 @@
 		<br/>
 		
 		<table th:if="${adminDTO != null}">
-			<h2>Cars: </h2>
+			<h2 >Cars: </h2>
 			<tr>
 				<th>Car ID</th>
 				<th>Type</th>
@@ -113,15 +122,27 @@
 				</td>
 			</tr>	
 			
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>
+					<form action="/admin/addnewcarpage" method="get">
+					<input type="submit" value="Add new car" />
+					</form>
+				</td>
+				<td></td>
+				<td></td>
+			</tr>
+		
 		</table>
 		
 		<p th:if="${messageDTO != null && messageDTO.isSuccessfully() == true}">Successfully deleted the car!</p>
 		<p th:if="${messageDTO != null && messageDTO.isSuccessfully() == false}">Delete not successfully!</p>
 		<br />
 		
-		<form action="/admin/addnewcarpage" method="get">
-			<input type="submit" value="Add new car" />
-		</form>
+		
 		
 	</body>
 </html>

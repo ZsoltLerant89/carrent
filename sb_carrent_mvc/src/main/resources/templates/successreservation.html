@@ -4,14 +4,14 @@
 		<meta charset="UTF-8">
 		<title>Success reservation</title>
 		<style>
-			table 
-			{
+			table{
+			
 			  border-collapse: collapse;
 			  width: 100%;
 			}
 			
-			th, td 
-			{
+			th, td{
+			
 			  padding: 8px;
 			  text-align: left;
 			  border-bottom: 1px solid #DDD;
@@ -19,8 +19,8 @@
 			
 			.trclass:hover {background-color: #D6EEEE;}
 			
-			input[type=submit]
-			{
+			input[type=submit]{
+			
 				background-color: #54655b;
 			 	border: none;
 				color: white;
@@ -30,8 +30,8 @@
 				cursor: pointer;
 			 }
 			 
-			 th,td,h4
-			{
+			 th,td,h4{
+			 
 				font-variant: small-caps;
 				font-style: italic;
 			}
@@ -41,7 +41,7 @@
 	<body>
 
 		<table th:if="${successReservationDTO != null}">
-			<h4>Success reservation!</h4>
+			<h4 style="text-align: center; color: #54655b; font-size: 28px;">Success reservation!</h4>
 			<tr>
 				<th>Car</th>
 				<th>Name</th>
@@ -67,7 +67,7 @@
 		</table>
 		<br />
 		
-		<form action="/" method="get">
+		<form style="text-align: center;" action="/" method="get">
 			<input type="submit" value="Index page" />
 		</form>
 		

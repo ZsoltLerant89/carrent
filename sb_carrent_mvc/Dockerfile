@@ -1,11 +1,5 @@
-FROM maven:3.9.2-eclipse-temurin-17-alpine as builder
+FROM openjdk:8
 
-COPY ./src src/
-COPY ./pom.xml pom.xml
+COPY target/sb_carrent_mvc-0.0.1-SNAPSHOT.jar  sb_carrent_mvc-0.0.1-SNAPSHOT.jar
 
-RUN mvn clean package -DskipTests
-
-FROM eclipse-temurin:17-jre-alpine
-COPY --from=builder target/*.jar app.jar
-EXPOSE 8080
-CMD ["java","-jar","app.jar"]
+ENTRYPOINT ["java","-jar","sb_carrent_mvc-0.0.1-SNAPSHOT.jar"]

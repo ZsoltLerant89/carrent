@@ -4,14 +4,14 @@
 		<meta charset="UTF-8">
 		<title>Add new car</title>
 		<style>
-			table 
-			{
+			table {
+			
 			  border-collapse: collapse;
 			  width: 80%;
 			}
 			
-			th, td 
-			{
+			th, td {
+			
 			  padding: 8px;
 			  text-align: left;
 			  border-bottom: 1px solid #DDD;
@@ -19,28 +19,29 @@
 			
 			tr:hover {background-color: #D6EEEE;}
 			
-			.addnewcarform 
-			{
+			.addnewcarform {
+			
 				font-family: font-family: "Times New Roman", Times, serif;
 				letter-spacing: 1px;
 				border: 1px solid #DDD;
 				padding: 8px;
 				width:185px;	
+				margin: auto;
 			}
 			
-			p
-			{
+			p{
+			
 				font-variant: small-caps;
 			}
 			
-			th,td
-			{
+			th,td{
+			
 				font-variant: small-caps;
 				font-style: italic;
 			}
 			
-			input[type=text],input[type=number]
-			{
+			input[type=text],input[type=number]{
+			
 				width: 100%;
 				padding: 4px 8px;
 				margin: 10px 0;
@@ -52,8 +53,8 @@
 				letter-spacing: 1px;
 			}
 			
-			select 
-			{
+			select{
+			
 				width: 100%;
 				padding: 2px 2px;
 				margin: 10px 0;
@@ -65,8 +66,8 @@
 				letter-spacing: 1px;
 			}
 			
-			input[type=submit]
-			{
+			input[type=submit]{
+			
 				background-color: #54655b;
 			 	border: none;
 				color: white;
@@ -76,10 +77,15 @@
 				cursor: pointer;
 			 }
 			
-			h4
-			{
+			h4{
+			
 				margin: 0 0;
 				padding: 0 0;
+			}
+			
+			.adminPage{
+				margin: auto;
+				text-align: center;
 			}
 			
 		</style>
@@ -134,7 +140,7 @@
 		</div>
 		<br />
 		
-		<form action="/admin" method="get">
+		<form class="adminPage" action="/admin" method="get">
 			<input type="submit" value="Admin page" />
 		</form>
 		
